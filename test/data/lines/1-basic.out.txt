@@ -1,0 +1,8 @@
+14 | Hello, world!
+8 | test...
+62 | ft_simple_map and ft_stringbuilder are from separate projects
+1 | 
+1 | 
+75 |  two empty lines above and spaces at the start/end of this line.          
+33 | and this file end with a newline
+NULL

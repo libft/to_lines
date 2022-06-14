@@ -20,7 +20,7 @@ CC := clang
 CFLAGS := -Wall -Wextra -Werror -std=c99 -pedantic -g3
 
 $(addprefix test_,none leak address memory undefined): test_%: obj/test_%.exe
-	$Q$(foreach t,$(shell find ../data/lines -type f -name "*.in.txt"),./$< 42 < $t && )true
+	$Q$(foreach t,$(shell find ../data/lines -type f -name "*.in.txt" | sed "s/\\.in\\.txt$$//" | sort),./$< 42 < $t.in.txt | diff $t.out.txt - && )true
 obj/test_none.exe: obj/lib.none.a
 	$Q$(CC) -o $@ ../target/none.a $^
 obj/test_leak.exe: obj/lib.leak.a

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_to_lines.c                                      :+:      :+:    :+:   */
+/*   ft_to_lines_drain.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Juyeong Maing <jmaing@student.42seoul.kr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 22:21:13 by Juyeong Maing     #+#    #+#             */
-/*   Updated: 2022/06/14 23:56:22 by Juyeong Maing    ###   ########.fr       */
+/*   Updated: 2022/06/15 01:45:33 by Juyeong Maing    ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ static t_err	ft_to_lines_internal_append(
 static t_err	ft_to_lines_internal_final(
 	t_ft_to_lines *context,
 	char **out_line,
+	size_t *out_line_length,
 	size_t length
 )
 {
@@ -72,22 +73,18 @@ static t_err	ft_to_lines_internal_final(
 		return (true);
 	context->pending_offset += length;
 	if (context->pending_offset == context->pending_length)
-	{
 		context->pending = NULL;
-		context->pending_length = 0;
-		context->pending_offset = 0;
-	}
-	*out_line = stringbuilder_to_string(context->current, 0);
-	if (!*out_line)
+	if (ft_to_lines_get_current_line(context, out_line, out_line_length))
 		return (true);
 	stringbuilder_free(context->current);
 	context->current = NULL;
 	return (false);
 }
 
-static t_err	ft_to_lines_internal(
+t_err	ft_to_lines_drain(
 	t_ft_to_lines *context,
-	char **out_line
+	char **out_line,
+	size_t *out_line_length
 )
 {
 	size_t	position;
@@ -102,23 +99,10 @@ static t_err	ft_to_lines_internal(
 			context->pending_length - context->pending_offset,
 			'\n',
 			&position))
-		return (ft_to_lines_internal_final(context, out_line, position + 1));
+		return (ft_to_lines_internal_final(
+				context,
+				out_line,
+				out_line_length,
+				position + 1));
 	return (ft_to_lines_internal_append(context, out_line));
-}
-
-t_err	ft_to_lines(
-	t_ft_to_lines *context,
-	const void *append,
-	size_t append_length,
-	char **out_line
-)
-{
-	if (!append || !append_length)
-		return (ft_to_lines_internal(context, out_line));
-	if (append && context->pending)
-		return (true);
-	context->pending = (const char *)append;
-	context->pending_offset = 0;
-	context->pending_length = append_length;
-	return (ft_to_lines_internal(context, out_line));
 }
