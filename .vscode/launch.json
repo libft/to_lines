@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug case1",
+      "program": "${workspaceFolder}/test/case1/obj/test_none.exe",
+      "args": [
+        "42",
+      ],
+      "cwd": "${workspaceFolder}/test/case1",
+      "preLaunchTask": "Build case1",
+    },
+  ],
+}

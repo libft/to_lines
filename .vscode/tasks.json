@@ -1,0 +1,24 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build case1",
+      "type": "shell",
+      "command": "make fclean && make obj/test_none.exe",
+      "group": {
+        "kind": "build",
+        "isDefault": false,
+      },
+      "presentation": {
+        "reveal": "always",
+        "focus": false
+      },
+      "options": {
+        "cwd": "${workspaceFolder}/test/case1"
+      },
+      "problemMatcher": [
+        "$gcc",
+      ],
+    },
+  ],
+}

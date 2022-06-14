@@ -1,0 +1,7 @@
+Hello, world!
+test...
+ft_simple_map and ft_stringbuilder are from separate projects
+
+
+ two empty lines above and spaces at the start/end of this line.          
+and this file is NOT end with any newline
